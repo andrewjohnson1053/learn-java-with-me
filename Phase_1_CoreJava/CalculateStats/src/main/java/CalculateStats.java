@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Scanner;
 
 public class CalculateStats {
@@ -16,13 +15,21 @@ public class CalculateStats {
             arr[i] = input.nextInt();
         }
 
-        stStats stats = ComputeStats(arr);
-        System.out.println(stats);
+        try {
+            Stats stats = ComputeStats(arr);
+            System.out.println(stats);
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
-    public static stStats ComputeStats(int[] arrNums)
+    public static Stats ComputeStats(int[] arrNums) throws IllegalArgumentException
     {
-        stStats retStats = new stStats();
+        if (arrNums == null || arrNums.length == 0)
+            throw new IllegalArgumentException("Input array is null or empty");
+
+        Stats retStats = new Stats();
 
         retStats.nSum = arrNums[0];
         retStats.nMin = arrNums[0];
@@ -40,20 +47,20 @@ public class CalculateStats {
         return retStats;
     }
 
-    public static class stStats
+    public static class Stats
     {
         public int nSum = 0;
         public double dAvg = 0.0;
         public int nMin = Integer.MIN_VALUE;
         public int nMax = Integer.MAX_VALUE;
 
-        public stStats()
+        public Stats()
         {
         }
 
         @Override
         public String toString() {
-            return "Sum = " + nSum + ", Min = " + nMin + ", Max = " + nMax + ", Avg = " + dAvg;
+            return String.format("Sum = %d, Min = %d, Max = %d, Avg = %.4f", nSum, nMin, nMax, dAvg);
         }
     }
 }
